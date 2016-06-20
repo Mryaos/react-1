@@ -76,7 +76,7 @@ module.exports = function(grunt) {
 
 		watch: {
 			scripts: {
-				files: ['src/**/*.jsx', 'src/**/*.scss', 'src/**/*.jade'],
+				files: ['src/**/*.jsx', 'src/**/*.js', 'src/**/*.scss', 'src/**/*.jade'],
 				tasks: ['autoprefixer', 'sass', 'react', 'jade', 'copy', 'uglify'],
 				options: {
 					spawn: false,

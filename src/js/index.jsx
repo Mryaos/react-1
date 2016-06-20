@@ -32,6 +32,7 @@ var List = React.createClass({
 				<h2 className="user">{this.props.data.name}</h2>
 				<p className="comment">{this.props.data.words}</p>
 				<a href='javascript:;' onClick={this.del} className='del'>删除</a>
+				<p className='time'>留言时间： {this.props.data.createdAt}</p>
 			</li>
 		);
 	}
@@ -85,7 +86,6 @@ var CommentUpload = React.createClass({
 		e.preventDefault();
 		var username = this.refs.username.getDOMNode().value;
 		var content = this.refs.content.getDOMNode().value;
-		var datas = {name: 'username', words: 'content'};
 
 		ajax({
 			url: 'https://leancloud.cn:443/1.1/classes/TestObject',
@@ -95,16 +95,16 @@ var CommentUpload = React.createClass({
 				'X-LC-Key': 'LnP8wradUhj7Q53r8fabnKoS',
 			 	'Content-Type': 'application/json'
 			},
-			data: {name: 'username', words: 'content'},
+			data: {"name" : username, "content" : content},
 			success: function(data) {
-				console.log(data.objectId);
+				alert('提交成功');
 			},
 		});
 	},
 
 	render: function() {
 		return (
-			<form action='/' enctype='application/json' method='post' onSubmit={this.handleSubmit}>
+			<form action='/' enctype="application/json" method='post' onSubmit={this.handleSubmit}>
 				<label htmlFor='username'>
 					name: <input type='text' name='username' ref='username' />
 				</label>

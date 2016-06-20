@@ -29,7 +29,7 @@ function ajax(json) {
 	if(method == 'get') {
 		xhr.send();
 	} else {
-		xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+		xhr.setRequestHeader('content-type', 'application/json');
 		xhr.send(data);
 	}
 
