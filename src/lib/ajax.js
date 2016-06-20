@@ -30,7 +30,7 @@ function ajax(json) {
 		xhr.send();
 	} else {
 		xhr.setRequestHeader('content-type', 'application/json');
-		xhr.send(data);
+		xhr.send(JSON.stringify(data));
 	}
 
 	xhr.onreadystatechange = function() {

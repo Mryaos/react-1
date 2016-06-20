@@ -62,6 +62,17 @@ module.exports = function(grunt) {
 			}
 		},
 
+		imagemin: {
+			dynamic: {                    
+		      files: [{
+		        expand: true,                 
+		        cwd: 'src/',                
+		        src: ['**/*.{png,jpg,gif}'],
+		        dest: 'build/'
+		      }]
+		    }
+		},
+
 		uglify: {
 			my_target: {
 				files: [{
@@ -77,7 +88,7 @@ module.exports = function(grunt) {
 		watch: {
 			scripts: {
 				files: ['src/**/*.jsx', 'src/**/*.js', 'src/**/*.scss', 'src/**/*.jade'],
-				tasks: ['autoprefixer', 'sass', 'react', 'jade', 'copy', 'uglify'],
+				tasks: ['autoprefixer', 'sass', 'react', 'jade', 'copy', 'uglify', 'imagemin'],
 				options: {
 					spawn: false,
 				},
@@ -93,7 +104,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-imagemin');
 
-	grunt.registerTask('test', ['sass', 'autoprefixer', 'react', 'jade','copy', 'uglify']);
+	grunt.registerTask('test', ['sass', 'autoprefixer', 'react', 'jade','copy', 'uglify', 'imagemin']);
 	grunt.registerTask('default', ['watch']);
 };
