@@ -28,6 +28,7 @@ coverage
 node_modules
 jspm_packages
 .sass-cache
+build
 # Optional npm cache directory
 .npm
 
