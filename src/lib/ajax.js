@@ -17,7 +17,12 @@ function ajax(json) {
 	}
 
 	if(method == 'get' && data) {
-		url += url.indexOf('?') > -1 ? data : '?' + data;
+		data = encodeURI(data);
+		var datas = null;
+		for(var i in data) {
+			datas += i + '=' + data[i] + '&&';
+		}
+		url += url.indexOf('?') == -1 ? '?' + data : '&&' + data;
 	}
 
 	xhr.open(method, url, async);

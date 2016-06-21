@@ -32,7 +32,7 @@ var List = React.createClass({
 							'X-LC-Key': 'R7T6PUVPj06wGwJaWWE0lqzS',
 						 	'Content-Type': 'application/json'
 						 },
-						data: 'order=-createdAt',
+						data: {"order":'-createdAt'},
 						success: function(data) {
 							var data = JSON.parse(unescape(data.replace(/\\u/g, "%u")));
 							self.props.dataChange(data.results);
@@ -88,7 +88,7 @@ var CommentList = React.createClass({
 				'X-LC-Key': 'R7T6PUVPj06wGwJaWWE0lqzS',
 			 	'Content-Type': 'application/json'
 			 },
-			data: 'order=-createdAt',
+			data: {"order":'-createdAt'},
 			success: function(data) {
 				var data = JSON.parse(unescape(data.replace(/\\u/g, "%u")));
 				this.setState({data: data.results});
