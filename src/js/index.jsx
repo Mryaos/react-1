@@ -3,7 +3,7 @@ var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var hashHistory = ReactRouter.hashHistory;
 var Link = ReactRouter.Link; 
-
+var IndexRoute = ReactRouter.IndexRoute;
 
 // 评论展示列表 Li
 var List = React.createClass({
@@ -163,6 +163,17 @@ var CommentUpload = React.createClass({
 	}
 });
 
+// 首页内容
+var Home = React.createClass({
+	render: function() {
+		return (
+			<div className="comment-home">
+				这是React测试页面，点击上方按钮使用留言板功能。任何用户可以添加、删除留言内容。
+			</div>
+		);
+	}
+});
+
 // 首页部分
 var App = React.createClass({
 	render: function() {
@@ -181,10 +192,12 @@ var App = React.createClass({
 	}
 });
 
+
 ReactDOM.render(
 	(
 		<Router history={hashHistory}>
 			<Route path="/" component={App}>
+				<IndexRoute component={Home}/>
 				<Route path="/commentupload" component={CommentUpload} />
 				<Route path="/commentlist" component={CommentList} />
 			</Route>

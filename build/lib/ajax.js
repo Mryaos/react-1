@@ -7,7 +7,8 @@ function ajax(json) {
 	 data = json.data || null,
 	 success = json.success || '',
 	 headers = json.headers || null,
-	 url = json.url;
+	 url = json.url,
+	 async = json.async || true;
 
 	try {
 		xhr = new XMLHttpRequest();
@@ -16,9 +17,10 @@ function ajax(json) {
 	}
 
 	if(method == 'get' && data) {
-		url += '?' + encodeURI(data);
+		url += url.indexOf('?') > -1 ? data : '?' + data;
 	}
-	xhr.open(method, url, true);
+
+	xhr.open(method, url, async);
 
 	if(headers) {
 		for(var i in headers) {

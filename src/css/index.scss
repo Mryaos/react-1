@@ -60,6 +60,13 @@ html, body {
 
 		}
 
+		.comment-home {
+			width: 80%;
+			color: #000;
+			margin: 20px auto 0;
+			font-size: 2em;
+		}
+
 		.comment-show {
 			@extend .box;
 			width: 100%;
@@ -78,6 +85,7 @@ html, body {
 			text-align: left;
 			box-sizing: border-box;
 			border: 1px solid #00a0e9;
+			@include border-radius(5px);
 		}
 
 		.del {
@@ -86,7 +94,7 @@ html, body {
 
 		.comment-upload {
 			width: 100%;
-			margin-top: 10px;
+			margin-top: 20px;
 			@extend .box;
 			-webkit-box-pack: center;
 			form {
