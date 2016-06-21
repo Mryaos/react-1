@@ -3,12 +3,12 @@
 
 function ajax(json) {
 	var xhr = null,
-	 method = json.method || 'get',
-	 data = json.data || null,
-	 success = json.success || '',
-	 headers = json.headers || null,
-	 url = json.url,
-	 async = json.async || true;
+	method = json.method || 'get',
+	data = json.data || null,
+	success = json.success || '',
+	headers = json.headers || null,
+	url = json.url,
+	async = json.async || true;
 
 	try {
 		xhr = new XMLHttpRequest();
