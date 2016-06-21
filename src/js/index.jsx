@@ -116,7 +116,22 @@ var CommentUpload = React.createClass({
 		e.preventDefault();
 		var username = this.refs.username.getDOMNode().value;
 		var content = this.refs.content.getDOMNode().value;
-		var date = new Date().toString();
+		if(username == '' || content == '') {
+			alert('请输入内容后再提交！');
+			return;
+		}
+
+		var date = new Date();
+		var Y = date.getFullYear(),
+			M = date.getMonth() + 1,
+			D = date.getDate();
+		M = M > 9 ? M : '0' + M;
+		var h = date.getHours(),
+		 	m = date.getMinutes(),
+		 	s = date.getSeconds();
+		 m = m < 10 ? '0' + m : m;
+
+		var time = (Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s);
 
 		ajax({
 			url: 'https://leancloud.cn:443/1.1/classes/CommentList',
@@ -126,7 +141,7 @@ var CommentUpload = React.createClass({
 				'X-LC-Key': 'R7T6PUVPj06wGwJaWWE0lqzS',
 			 	'Content-Type': 'application/json'
 			},
-			data: {"name" : username, "content" : content, "time" : date},
+			data: {"name" : username, "content" : content, "time" : time},
 			success: function(data) {
 				alert('提交成功');
 				this.refs.username.getDOMNode().value = '';
@@ -139,13 +154,9 @@ var CommentUpload = React.createClass({
 		return (
 			<div className='comment-upload' id='comment-upload'>
 				<form action='/' enctype="application/json" method='post' onSubmit={this.handleSubmit}>
-					<label htmlFor='username'>
-						name: <input type='text' name='username' ref='username' />
-					</label>
-					<label htmlFor='content'>
-						words: <textarea name='content' ref='content'></textarea>
-					</label>
-					<input type='submit' value='提交评论' class='submit' />
+					<label htmlFor='username'>name: <input type='text' className='username' name='username' ref='username' /></label>
+					<label htmlFor='content'>words: <textarea className='content' name='content' ref='content'></textarea></label>
+					<input type='submit' value='提交评论' className='submit' />
 				</form>
 			</div>
 		);
@@ -157,11 +168,13 @@ var App = React.createClass({
 	render: function() {
 		return (
 			<div className='comment-container'>
-				<h2 className='title'>Welcome to my lyb.</h2>
-				<ul className='tab-comment'>
-					<li><Link to="/commentupload" activeClassName="active">添加评论</Link></li>
-					<li><Link to="/commentlist" activeClassName="active">查看评论</Link></li>
-				</ul>
+				<header className='header'>
+					<h2 className='title'>Welcome to my lyb.</h2>
+					<ul className='tab-comment'>
+						<li><Link to="/commentupload" activeClassName="active">添加评论</Link></li>
+						<li><Link to="/commentlist" activeClassName="active">查看评论</Link></li>
+					</ul>
+				</header>
 				{this.props.children}
 			</div>
 		);
@@ -172,7 +185,6 @@ ReactDOM.render(
 	(
 		<Router history={hashHistory}>
 			<Route path="/" component={App}>
-
 				<Route path="/commentupload" component={CommentUpload} />
 				<Route path="/commentlist" component={CommentList} />
 			</Route>

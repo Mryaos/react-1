@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 
 		autoprefixer: {
 			options: {
-				browsers: ['last 5 versions'],
+				browsers: ['last 2 versions', 'last 2 Chrome versions', '> 1% in US'],
 			},
 			multiple_files: {
 				expand: true,
