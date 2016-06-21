@@ -1,25 +1,25 @@
 // reset.css  用于重置样式
 
 body, html, div, p, h1, h2, h3, h4, h5, h6, img, ul, li, ol, dl, dd, dt, input, span, a, header, footer, section, article, aside {
-	margin: 0;
-	padding: 0;
-	border: none;
-	font-family: 'Microsoft Yahei';
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-family: 'Microsoft Yahei';
 }
 
 input, textarea {
-	outline: none;
-	border: none;
+    outline: none;
+    border: none;
 }
 li {
-	list-style: none;
+    list-style: none;
 }
 
 a {
-	text-decoration: none;
-	&:hover {
-		text-decoration: underline;
-	}
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 
