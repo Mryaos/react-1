@@ -22,7 +22,7 @@ var List = React.createClass({
                     'Content-Type': 'application/json'
                  },
                 success: function() {
-                    <Model value="Hello" />
+                    alert('删除成功');
                     // 获取删除后的最新数据
                     ajax({
                         url:'https://api.leancloud.cn/1.1/classes/CommentList',
