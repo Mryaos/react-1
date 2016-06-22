@@ -6,6 +6,10 @@
 html, body {
     font-family: 16px;
 }
+body {
+    background: #9BD4EC;
+}
+
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
      -moz-border-radius: $radius;
@@ -13,9 +17,10 @@ html, body {
           border-radius: $radius;
 }
 
-.box {
+.flex {
     display: -webkit-box;
-    display: box;
+    display: -webkit-flex;
+    display: flex;
 }
 
 #container .active {
@@ -25,11 +30,9 @@ html, body {
 .comment-container {
     width: 100%;
     margin: 0 auto;
-    padding: 2% 2% 8%;
+    padding: 2%;
     text-align: center;
     box-sizing: border-box;
-    background: url("../images/bg.jpg") no-repeat;
-    background-size: cover;
     
     @at-root {
         .header {
@@ -39,13 +42,13 @@ html, body {
             }
             .tab-comment {
                 width: 100%;
-                @extend .box;
-                -webkit-box-pack: center;
+                @extend .flex;
+                justify-content: center;
                 margin-top: 10px;
             }
             
             .tab-comment li {
-                -webkit-box-flex: 1;
+                flex-grow: 1;
                 margin-right: 15px;
             }
             .tab-comment a {
@@ -68,7 +71,7 @@ html, body {
         }
 
         .comment-show {
-            @extend .box;
+            @extend .flex;
             width: 100%;
         }
 
@@ -87,25 +90,43 @@ html, body {
             border: 1px solid #00a0e9;
             @include border-radius(5px);
         }
-
-        .del {
-            float: right;
+        .comment-data {
+            @extend .flex;
+            .datas {
+                flex-grow: 1;
+            }
+            h3.user {
+                width: 85px;
+            }
+            .del a {
+                color: #999;
+            }
         }
-
+        .comment-data:nth-of-type(2) {
+            flex-direction: column;
+            .datas {
+                text-indent: 2em;
+            }
+        }
+        .comment-data:nth-of-type(3) {
+            justify-content: space-between;
+        }
+            
         .comment-upload {
             width: 100%;
             margin-top: 20px;
-            @extend .box;
-            -webkit-box-pack: center;
-            form {
-                width: 100%;
-            }
+            @extend .flex;
+            flex-direction: column;
             label {
                 display: block;
+                @extend .flex;
+                flex-direction: row;
+                flex-grow: 1;
                 width: 100%;
                 padding: 8px;
                 box-sizing: border-box;
                 font-size: 2em;
+                color: #fff;
             }
             .username {
                 width: 80%;
@@ -122,6 +143,8 @@ html, body {
                 @include border-radius(5px);
             }
             .submit {
+                width: 90%;
+                margin: 10px auto;
                 padding: 10px 20px;
                 color: #00a0e9;
                 cursor: pointer;
@@ -138,4 +161,11 @@ html, body {
     }
 }
 
-
+@media screen and (max-width:360px) {
+    .comment-data:nth-of-type(3) {
+        flex-direction: column;
+        p:nth-of-type(2) {
+            text-align: right;
+        }
+    }
+}

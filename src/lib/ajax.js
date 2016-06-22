@@ -16,12 +16,8 @@ function ajax(json) {
         xhr = new ActiveXObject("Microsoft.XMLHTTP");
     }
 
-    if(method == 'get' && data) {
+    if(method === 'get' && data) {
         data = encodeURI(data);
-        var datas = null;
-        for(var i in data) {
-            datas += i + '=' + data[i] + '&&';
-        }
         url += url.indexOf('?') == -1 ? '?' + data : '&&' + data;
     }
 
@@ -29,11 +25,13 @@ function ajax(json) {
 
     if(headers) {
         for(var i in headers) {
-            xhr.setRequestHeader(i, headers[i]);
+            if(headers.hasOwnProperty(i)) {
+                xhr.setRequestHeader(i, headers[i]);
+            }
         }
     }
 
-    if(method == 'get') {
+    if(method === 'get') {
         xhr.send();
     } else {
         xhr.setRequestHeader('content-type', 'application/json');

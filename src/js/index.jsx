@@ -5,7 +5,7 @@ var hashHistory = ReactRouter.hashHistory;
 var Link = ReactRouter.Link; 
 var IndexRoute = ReactRouter.IndexRoute;
 
-// 评论展示列表 Li
+// 留言展示列表 Li
 var List = React.createClass({
     
     del: function(e) {
@@ -32,7 +32,7 @@ var List = React.createClass({
                             'X-LC-Key': 'R7T6PUVPj06wGwJaWWE0lqzS',
                             'Content-Type': 'application/json'
                          },
-                        data: {"order":'-createdAt'},
+                        data: 'order=-createdAt',
                         success: function(data) {
                             var data = JSON.parse(unescape(data.replace(/\\u/g, "%u")));
                             self.props.dataChange(data.results);
@@ -45,28 +45,28 @@ var List = React.createClass({
         
     },
 
-    datas: function() {
-        return {
-            name: this.props.data.name,
-            content: this.props.data.content,
-            time: this.props.data.time,
-        };
-    },
-
     render: function() {
         return (
             <li>
-                <h3 className="user">留言人：{this.datas().name}</h3>
-                <p className="comment">留言内容：{this.datas().content}</p>
-                <a href='javascript:;' onClick={this.del} className='del'>删除</a>
-                <p className='time'>留言时间： {this.datas().time}</p>
+                <div className="comment-data">
+                    <h3 className="user">留言人：</h3>
+                    <h3 className="datas">{this.props.data.name}</h3>
+                </div>
+                <div className="comment-data">
+                    <p className="comment">留言内容：</p>
+                    <p className="datas">{this.props.data.content}</p>
+                </div>
+                <div className="comment-data">
+                    <p className='time'>留言时间： {this.props.data.time}</p>
+                    <p className='del'><a href='javascript:;' onClick={this.del}>删除</a></p>
+                </div>
             </li>
         );
     }
 });
 
 
-// 评论展示部分
+// 留言展示部分
 var CommentList = React.createClass({
     
     getInitialState: function() { 
@@ -88,7 +88,7 @@ var CommentList = React.createClass({
                 'X-LC-Key': 'R7T6PUVPj06wGwJaWWE0lqzS',
                 'Content-Type': 'application/json'
              },
-            data: {"order":'-createdAt'},
+            data: 'order=-createdAt',
             success: function(data) {
                 var data = JSON.parse(unescape(data.replace(/\\u/g, "%u")));
                 this.setState({data: data.results});
@@ -99,7 +99,7 @@ var CommentList = React.createClass({
     render: function() {
         var self = this;
         return (
-            <div className='comment-show' id='comment-show'>
+            <div className='comment-show'>
                 <ul>
                     {this.state.data.map(function(res){
                         return <List data={res} dataChange={self.dataOnChange} />
@@ -110,14 +110,25 @@ var CommentList = React.createClass({
     }
 });
 
-// 评论添加部分
+// 留言添加部分
 var CommentUpload = React.createClass({
-    handleSubmit: function(e) {
-        e.preventDefault();
-        var username = this.refs.username.getDOMNode().value;
-        var content = this.refs.content.getDOMNode().value;
-        if(username == '' || content == '') {
-            alert('请输入内容后再提交！');
+    getInitialState: function() {
+        return {"name" : "", "content" : ""};
+    },
+
+    handleNameChange: function(event) {
+        this.setState({"name" : event.target.value});
+    },
+
+    handleContentChange: function(event) {
+        this.setState({"content" : event.target.value});
+    },
+
+    handleOnSubmit: function() {
+        
+        // 检验提交留言内容是否为空 
+        if(this.state.name === '' || this.state.content === '') {
+            alert('请输入完整后再提交');
             return;
         }
 
@@ -130,9 +141,11 @@ var CommentUpload = React.createClass({
             m = date.getMinutes(),
             s = date.getSeconds();
          m = m < 10 ? '0' + m : m;
+         s = s < 10 ? '0' + s : s;
 
         var time = (Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s);
-
+        this.setState({"time" : time});
+        
         ajax({
             url: 'https://leancloud.cn:443/1.1/classes/CommentList',
             method: 'post',
@@ -141,23 +154,24 @@ var CommentUpload = React.createClass({
                 'X-LC-Key': 'R7T6PUVPj06wGwJaWWE0lqzS',
                 'Content-Type': 'application/json'
             },
-            data: {"name" : username, "content" : content, "time" : time},
+            data: this.state,
             success: function(data) {
                 alert('提交成功');
-                this.refs.username.getDOMNode().value = '';
-                this.refs.content.getDOMNode().value = '';
+                this.setState({"name": ''});
+                this.setState({"content": ''});
+                this.setState({"time": ''});
             }.bind(this),
         });
     },
 
     render: function() {
+        var nameValue = this.state.name;
+        var contentValue = this.state.content;
         return (
-            <div className='comment-upload' id='comment-upload'>
-                <form action='/' enctype="application/json" method='post' onSubmit={this.handleSubmit}>
-                    <label htmlFor='username'>name: <input type='text' className='username' name='username' ref='username' /></label>
-                    <label htmlFor='content'>words: <textarea className='content' name='content' ref='content'></textarea></label>
-                    <input type='submit' value='提交评论' className='submit' />
-                </form>
+            <div className='comment-upload'>
+                    <label htmlFor='username'>name: <input type='text' value={nameValue} onChange={this.handleNameChange} className='username' name='name' /></label>
+                    <label htmlFor='content'>words: <textarea onChange={this.handleContentChange} className='content' value={contentValue}></textarea></label>
+                    <input type='button' value='提交评论' className='submit' onClick={this.handleOnSubmit} />
             </div>
         );
     }
@@ -182,8 +196,8 @@ var App = React.createClass({
                 <header className='header'>
                     <h2 className='title'>Welcome to my lyb.</h2>
                     <ul className='tab-comment'>
-                        <li><Link to="/commentupload" activeClassName="active">添加评论</Link></li>
-                        <li><Link to="/commentlist" activeClassName="active">查看评论</Link></li>
+                        <li><Link to="/commentupload" activeClassName="active">添加留言</Link></li>
+                        <li><Link to="/commentlist" activeClassName="active">查看留言</Link></li>
                     </ul>
                 </header>
                 {this.props.children}
