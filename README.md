@@ -13,3 +13,5 @@ grunt
 grunt命令
 执行一系列任务用 grunt test,
 执行监视任务用 grunt 或者 grunt watch。
+
+由于使用了sass插件，需要有ruby环境，安装完ruby需要通过gem install sass 安装sass
