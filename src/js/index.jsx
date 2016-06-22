@@ -22,7 +22,7 @@ var List = React.createClass({
                     'Content-Type': 'application/json'
                  },
                 success: function() {
-                    alert('删除成功');
+                    <Model value="Hello" />
                     // 获取删除后的最新数据
                     ajax({
                         url:'https://api.leancloud.cn/1.1/classes/CommentList',
@@ -144,7 +144,6 @@ var CommentUpload = React.createClass({
          s = s < 10 ? '0' + s : s;
 
         var time = (Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s);
-        this.setState({"time" : time});
         
         ajax({
             url: 'https://leancloud.cn:443/1.1/classes/CommentList',
@@ -154,23 +153,26 @@ var CommentUpload = React.createClass({
                 'X-LC-Key': 'R7T6PUVPj06wGwJaWWE0lqzS',
                 'Content-Type': 'application/json'
             },
-            data: this.state,
+            data: {
+                name : this.state.name,
+                content : this.state.content,
+                time : time
+            },
             success: function(data) {
                 alert('提交成功');
-                this.setState({"name": ''});
-                this.setState({"content": ''});
-                this.setState({"time": ''});
+                this.setState({
+                    name : '',
+                    content : '',
+                });
             }.bind(this),
         });
     },
 
     render: function() {
-        var nameValue = this.state.name;
-        var contentValue = this.state.content;
         return (
             <div className='comment-upload'>
-                    <label htmlFor='username'>name: <input type='text' value={nameValue} onChange={this.handleNameChange} className='username' name='name' /></label>
-                    <label htmlFor='content'>words: <textarea onChange={this.handleContentChange} className='content' value={contentValue}></textarea></label>
+                    <label>name: <input type='text' value={this.state.name} onChange={this.handleNameChange} className='username' /></label>
+                    <label>words: <textarea onChange={this.handleContentChange} className='content' value={this.state.content}></textarea></label>
                     <input type='button' value='提交评论' className='submit' onClick={this.handleOnSubmit} />
             </div>
         );
